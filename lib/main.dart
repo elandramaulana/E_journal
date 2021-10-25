@@ -1,7 +1,11 @@
+import 'package:e_journal/screens/register/register.dart';
+import 'package:e_journal/utils/preference_config.dart';
 import 'package:flutter/material.dart';
-import 'package:e_journal/screens/login/login.dart';
+import 'package:e_journal/screens/home/navbar.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  PreferencesConfig.init();
   runApp(const MyApp());
 }
 
@@ -14,18 +18,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'E_journal',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.cyan,
       ),
-      home: Login(),
+      home: const Register(),
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => const FluidNavBarDemo(),
+        '/register': (BuildContext context) => const Register(),
+      },
     );
   }
 }

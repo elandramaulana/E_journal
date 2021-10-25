@@ -1,11 +1,10 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 
 class ServiceLogin {
-  loginUser(String username, String password) async {
-    var dio = Dio();
-    dio.options
+  Future<dynamic> loginUser(String username, String password) async {
+    final _dio = Dio();
+    _dio.options
       ..baseUrl = 'https://journal-api-project.herokuapp.com/api/v1/'
       ..connectTimeout = 11000 //11s
       ..receiveTimeout = 11000
@@ -17,7 +16,7 @@ class ServiceLogin {
         'common-header': 'xx',
       };
 
-    dio.interceptors
+    _dio.interceptors
       ..add(InterceptorsWrapper(
         onRequest: (options, handler) {
           // return handler.resolve( Response(data:"xxx"));
@@ -27,13 +26,14 @@ class ServiceLogin {
       ))
       ..add(LogInterceptor(responseBody: false)); //Open log;
 
-    var response = await dio.post(
+    var response = await _dio.post(
       'authenticate',
       data: {"username": username, "password": password},
       options: Options(
         contentType: Headers.formUrlEncodedContentType,
       ),
     );
+    // ignore: avoid_print
     print(response.data);
   }
 }
